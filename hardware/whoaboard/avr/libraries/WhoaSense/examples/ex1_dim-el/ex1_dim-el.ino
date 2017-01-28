@@ -2,7 +2,7 @@
  *  dim EL elements using Pulse Width Modulation (PWM).  
  *  
  *  Copyright (C) 2017 Josh Vekhter
- *  This example code released under the MIT License - do what thy wilt
+ *  This example code released under the Apache License
  */
 
 #include "whoasense.h"

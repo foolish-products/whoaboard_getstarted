@@ -1,8 +1,7 @@
-/* This example shows how to use the WhoaSense library to sequence the 
- *  EL channels on the board.  
+/* This example shows how to use the WhoaSense library to 
+ *  sequence the different channels to a beat.  
  *  
- *  We also show how the main EL supply can be turned on and off for a bit of 
- *  extra sequencing potential!
+ *  Nice for making things sync to electronic music and the like.
  *  
  *  Copyright (C) 2017 Josh Vekhter
  *  This example code released under the Apache License
@@ -16,27 +15,28 @@ void setup() {
 }
 
 int glowIndex = 0;
+int beat = 0;
 
 void loop() {
   for (int i = 0; i < 4; i++) { 
     glow[i] = false; 
   }
+  beat = (beat + 1) % 8;
 
-  glowIndex = (glowIndex + 1) % 5;
-  if (glowIndex == 4) { 
-    // This function disables the EL supply in a consistent way
-    disableELSupply_withSync();
+  if (beat % 2 == 0) {
+    glow[0] = true;
   }
-  else { 
-    glow[glowIndex] = true;
-    switchOutputs(glow);
+  if (beat % 2 == 1) {
+    glow[1] = true;
   }
+  if (beat == 3 || beat == 4) {
+    glow[2] = true;
+  }
+
+  if (beat > 3) {
+    glow[3] = true;
+  }
+  
+  switchOutputs(glow);
 
   delay(500);
-
-  if (glowIndex == 4) { 
-    // To understand what this does, plug a peice of EL into the fifth miniJST port
-    // (the one on the side of the board, away from the feet).  
-    enableELSupply();
-  }
-}
