@@ -1,10 +1,8 @@
 #include "whoasense.h"
 
 void setup() {
-  
   Serial.begin(9600); 
   initWhoaBoard();
-
 }
 
 int glowIndex = 0;
