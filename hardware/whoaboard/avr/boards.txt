@@ -1,0 +1,36 @@
+# Foolish Products Board Configuration
+#
+# For more information see:
+# - https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification
+# - https://github.com/arduino/Arduino/wiki/Arduino-Hardware-Cores-migration-guide-from-1.0-to-1.6
+#
+
+##############################################################
+# First Edition Whoa Board Config
+whoaboard.name=Whoa Board
+whoaboard.bootloader.low_fuses=0xff
+whoaboard.bootloader.high_fuses=0xd8
+whoaboard.bootloader.extended_fuses=0xcb
+whoaboard.bootloader.file=caterina/Caterina-Flora8.hex
+whoaboard.bootloader.unlock_bits=0x3F
+whoaboard.bootloader.lock_bits=0x2F
+whoaboard.bootloader.tool=arduino:avrdude
+whoaboard.build.mcu=atmega32u4
+whoaboard.build.f_cpu=8000000L
+whoaboard.build.vid=0x16D0
+whoaboard.build.pid=0x0CA5
+whoaboard.build.core=arduino:arduino
+whoaboard.build.variant=whoaboard1
+whoaboard.build.board=AVR_WHOABOARD
+whoaboard.build.usb_product="Whoa Board"
+whoaboard.build.usb_manufacturer="Foolish Products"
+whoaboard.build.extra_flags={build.usb_flags}
+whoaboard.upload.protocol=avr109
+whoaboard.upload.maximum_size=28672
+whoaboard.upload.speed=57600
+whoaboard.upload.disable_flushing=true
+whoaboard.upload.use_1200bps_touch=true
+whoaboard.upload.wait_for_upload_port=true
+whoaboard.upload.tool=arduino:avrdude
+whoaboard.vid.0=0x16D0
+whoaboard.pid.0=0x0CA5
