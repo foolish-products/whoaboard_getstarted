@@ -66,7 +66,11 @@ It's worth noting that the Whoa Board has much in common with Adafruit's [Flora]
 Feature Overview
 ================
 
-The Whoa Board is an Arduino Compatible prototyping board.
+The Whoa Board is an Arduino Compatible prototyping board, and there are a few examples under file>examples in the arduino IDE which should help you get started! 
+
+<p align="center">
+<img src="docs/examples.png" />
+</p>
 
 The most unique thing about this board is that it can perform capacitative measurements (and independently sequence) 4 channels of electro-luminescent (EL) material.
 
