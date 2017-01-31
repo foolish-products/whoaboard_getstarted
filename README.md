@@ -140,7 +140,7 @@ Under the Hood
 
 Extracting a signal from this board is a somewhat subtle, multi-staged, process. Here are the steps, in order of utility. 
 
-1. Application Level Logic 
+    1. Application Level Logic 
 - This is where one bridges the gap between the smoothed signal and a desired interaction. 
 
 For our "button" example, the main heuristic we use is that when the EL element is touched, it consistently decreases over a series of measurements. 
@@ -150,21 +150,21 @@ If you are working with a more concrete application, it might be easier to achie
 <p align="center">
 <img src="docs/impulse.png" />
 </p>
-2. Signal Smoothing
+    2. Signal Smoothing
 - The raw signal that is collected from the board can be quite noisy. We extract a smoothed signal from every measurement 
 by performing computations on a sliding window of past measurements. 
 
 This smoothing technique is the product of extensive testing, and in our experience strikes a reasonable balance between signal stability and responsiveness for general application. 
 However, there are occasions where you might want to process the raw signal in a different way. In the later examples we expose some parameters which can be useful for this sort of tuning.  
 
-3. Orchestration 
+    3. Orchestration 
 - The sequence of steps that need to be performed to collect a "raw" capacitative measurement.
 
 One experimental feature of this board is the capability to pass an external EL supply through the board, 
 and to perform capacitative measurements on that. Using this feature requires making orchestration changes (among other things).
 If you are interested in testing this feature, please contact us first (josh [at] foolishproducts.com, include the word "External" in the subject).
 
-4. Configuration
+    4. Configuration
 - Low level hardware setup necessary for successful operation of the Whoa Board.
 
 It is unlikely that you will need to touch anything on this level as you play with this board.
