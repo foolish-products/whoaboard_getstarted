@@ -18,7 +18,6 @@ _**Contents**_
 
 * [Quick Start!](#quick-start-)
 * [Feature Overview](#feature-overview)
-* [Context](#context)
 * [Experiments and New Applications](#experiments-and-new-applications)
 * [A Major Weirdness](#a-major-weirdness)
 * [A More Minor Quirk](#a-more-minor-quirk)
@@ -84,6 +83,12 @@ There are a few demos that are notably missing.  A solid MIDI I/O demo, and wire
 However, we do include a number of different examples for logging and controlling the sequence and brightness of the EL elements.  Please give us feedback on what you'd like to see/what documentation needs work, and show us your projects [here!](https://www.hackster.io/foolish-products/products/whoa-board).
 
 The most complicated demo is the button-multichannel, and the hope with it is to provide a reference of how something more robust can be built on top of this board.  
+
+NOTE!  If you run into problems loading a program onto the board pressing the reset button after pressing upload in the IDE can sometimes help the computer establish a connection.  It sometimes takes a few tries to successfully flash a board - particularly if it has a program which sends lots of serial data, or otherwise is largely busy.  
+
+<p align="center">
+<img src="docs/flash.png" />
+</p>
 
 
 Experiments and New Applications
