@@ -14,7 +14,7 @@ Before we get started, two things.
 
 <a href="https://www.hackster.io/foolish-products/products/whoa-board">
 <p align="center">
-<img src="docs/serial-monitor.png" />
+<img src="docs/hackster-logo.png" />
 </p></a>
 
 _**Contents**_
