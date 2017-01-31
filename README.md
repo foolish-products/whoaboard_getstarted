@@ -1,7 +1,8 @@
-<a href="https://www.hackster.io/foolish-products/products/whoa-board">
+
 <p align="center">
+<a href="https://www.hackster.io/foolish-products/products/whoa-board">
 <img src="docs/whoa-robot-clear-background.png" />
-</p></a>
+</a></p>
 
 # Hello Hello!
 
