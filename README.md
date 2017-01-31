@@ -12,7 +12,7 @@ Before we get started, two things.
 
 2. Please fill out this [survey](https://goo.gl/forms/owCjG2DdysAJHh7x2), we'd really appreciate it, and we'll bug you about it if less than half of the early birds respond.
 
-<a href='https://www.hackster.io/foolish-products/products/whoa-board'>'
+<a href="https://www.hackster.io/foolish-products/products/whoa-board">
 <p align="center">
 <img src="docs/serial-monitor.png" />
 </p></a>
