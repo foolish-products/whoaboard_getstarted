@@ -8,14 +8,14 @@ Super glad you could make it!  This here is a guide for getting started with the
 
 Before we get started, two things.  
 
+<a href="https://www.hackster.io/foolish-products/products/whoa-board">
+<p align="center">
+<img src="docs/hackster_logo.png" />
+</p></a>
+
 1. If you make something, please share (consider this [forum](https://www.hackster.io/foolish-products/products/whoa-board), but really we're just excited to see what everyone makes and want to make it easy for ideas and insights to flow!).
 
 2. Please fill out this [survey](https://goo.gl/forms/owCjG2DdysAJHh7x2), we'd really appreciate it, and we'll bug you about it if less than half of the early birds respond.
-
-<a href="https://www.hackster.io/foolish-products/products/whoa-board">
-<p align="center">
-<img src="docs/hackster-logo.png" />
-</p></a>
 
 _**Contents**_
 
