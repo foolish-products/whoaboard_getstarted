@@ -73,8 +73,8 @@ void setup() {
 char impulseBuffer[50];
 char derivativeBuffer[50];
 
-#define printLineSize 200
-char logBuffer[printLineSize];
+#define PrintLineSize 200
+char logBuffer[PrintLineSize];
 
 int val = 0;
 
@@ -143,45 +143,44 @@ void loop() {
         isTouched = true;
         whereTouched[channel] = true;
         
-//        if (ENABLE_logOnTransition == true) { 
-//          sprintf(logBuffer, "Switched channel: %d Measurement: %d Impulse: %d Adj transition count: %d",
-//            channel, senseHistory[channel][senseHistoryIter], chanImpulse, chanChangeCount);
-//          Serial.println(logBuffer);
-//        }
+        if (ENABLE_logOnTransition == true) { 
+          snprintf(logBuffer, PrintLineSize, "Switched channel: %d Measurement: %d Impulse: %d Adj transition count: %d",
+            channel, senseHistory[channel][senseHistoryIter], chanImpulse, chanChangeCount);
+          Serial.println(logBuffer);
+        }
       }
 
-//      if (whoaConfig.ENABLE_logging) { 
-//        // EXEX - Logging inline - pull into a function!
-//        int derivativelen;
-//        int impulselen;
-//    
-//        switch (channel) {
-//          case 0:
-//            impulselen = sprintf(impulseBuffer, "Imp: %d, ",
-//                                 chanImpulse);
-//            derivativelen = sprintf(derivativeBuffer, "Change: %d, ",
-//                                    chanChangeCount);
-//    
-//            break;
-//    
-//          case 1:
-//          case 2:
-//          case 3:
-//            impulselen += sprintf(impulseBuffer + impulselen, "%d, ",
-//                                  chanImpulse);
-//            derivativelen += sprintf(derivativeBuffer + derivativelen, "%d, ",
-//                                     chanChangeCount);
-//            break;
-//    
-//          default:
-//            break;
-//        }
-//      }
+      if (whoaConfig.ENABLE_logging) { 
+        // EXEX - Logging inline - pull into a function!
+        int derivativelen;
+        int impulselen;
+    
+        switch (channel) {
+          case 0:
+            impulselen = sprintf(impulseBuffer, "Imp: %d, ",
+                                 chanImpulse);
+            derivativelen = sprintf(derivativeBuffer, "Change: %d, ",
+                                    chanChangeCount);
+    
+            break;
+    
+          case 1:
+          case 2:
+          case 3:
+            impulselen += sprintf(impulseBuffer + impulselen, "%d, ",
+                                  chanImpulse);
+            derivativelen += sprintf(derivativeBuffer + derivativelen, "%d, ",
+                                     chanChangeCount);
+            break;
+    
+          default:
+            break;
+        }
+      }
    
     }
     if (whoaConfig.ENABLE_logging) {
-   //   Serial.print(" "); // for some reason, this needs to happen :(.
-      snprintf(logBuffer, printLineSize, "%20s %23s %20s %20s %s",
+      snprintf(logBuffer, PrintLineSize, "%20s %23s %20s %20s %s",
                signalBuffer,
                impulseBuffer, 
                derivativeBuffer,

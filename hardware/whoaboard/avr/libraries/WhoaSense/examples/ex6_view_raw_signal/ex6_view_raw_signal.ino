@@ -17,7 +17,6 @@
 
 void setup() {
   Serial.begin(9600); 
-  // This initializes the hardware configuration of the board
   initWhoaBoard();
 
   // This enables raw (sorted) logging on channel 1

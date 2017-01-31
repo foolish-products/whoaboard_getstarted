@@ -30,7 +30,7 @@ void setup() {
   Serial.begin(9600); 
   initWhoaBoard();
 
-  whoaConfig.ENABLE_logging = true;
+  whoaConfig.ENABLE_logging = true; // Note logging can cause slight flickering.
   
 //////////////////////////////////////////////////////////////////
 // More advanced, try tuning these parameters and see what happens 
@@ -53,7 +53,7 @@ void loop() {
   // Increase the number, get a larger signal (but lose a bit of brightness).
   rawSenseResults = senseAll(1700, true);
   
-  Serial.println(processSenseBuffer);
+  Serial.println(signalBuffer);
   if (getProcessedSense(1) < threshold) { 
     glow[0] = false;
   }
