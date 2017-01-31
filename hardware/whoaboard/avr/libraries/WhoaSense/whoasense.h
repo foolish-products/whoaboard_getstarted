@@ -1,10 +1,6 @@
 #ifndef WhoaSense_h
 #define WhoaSense_h
 
-#ifndef ENABLE_LOGGING
-#define ENABLE_LOGGING 
-#endif
-
 #include "Arduino.h"
 
 #ifdef __cplusplus
@@ -17,8 +13,9 @@ extern "C" {
 #define txled 22
 #define rstled 7
 
-void ledsOff();
+
 void ledsOn();
+    void ledsOff();
 
 // Glow State
 
@@ -37,6 +34,29 @@ void enableELSupply();
 // which is shifted up by one from the indicies in the senseResults array.
 int senseChannel(int channel, int chargeDelay_micros);
 int* senseAll(int chargeDelay_micros, bool isGlow);
+    
+typedef struct WhoaConfig {
+    //////////////////////////////
+    // Measurement Knobs
+    //////////////////////////////
+    
+    int rawSenseSize;
+    
+    int sortedRawWindowSize;
+    int sortedRaw_slackToIncrease;
+    int sortedRaw_slackToDecrease;
+    
+    int senseHistorySize;
+    
+    //////////////////////////////
+    // Logging Config
+    //////////////////////////////
+    bool ENABLE_logging;
+    bool ENABLE_rawLogging;
+    int rawLoggingChannel;// Select a channel with this (1 - 4), to print a raw sorted output.
+};
+    
+extern WhoaConfig whoaConfig;
 
 /* -----------------------------------------------------------
  * First we look at the window of previous raw measurements
@@ -48,36 +68,27 @@ int* senseAll(int chargeDelay_micros, bool isGlow);
  * You can tweak the levers that control these windows here or in your arduino script
  */
 
-#ifndef rawSenseSize
-#define rawSenseSize 31 // Increase for a more stable (but less responsive signal)
-#endif
-#ifndef sortedRawWindowSize
-#define sortedRawWindowSize 15 // Increase this and decrease the slack to make the signal more responsive (but noisier)
-#define sortedRaw_slackToIncrease 3 
-#define sortedRaw_slackToDecrease 2
-#endif
-#ifndef senseHistorySize
-#define senseHistorySize 21
-#endif
+
+// These define the max array sizes used in the signal processing code.
+// If you want more, make them bigger.
+#define MaxRawSenseSize 50
+#define MaxSortedRawWindowSize 50
+#define MaxSenseHistorySize 41
 
 void processSense(int* rawSenseResults);
 extern int senseHistoryIter;
 extern int rawSenseHistoryIter;
 
 int getProcessedSense(int channel);
-extern int senseHistory[channelCount][senseHistorySize];
+extern int senseHistory[channelCount][MaxSenseHistorySize];
 
 // Write to a buffer instead of repeatedly calling Serial.print to generate logging. 
 // If your wire starts flashing when you are logging, this might be why!
-#ifdef ENABLE_RAW_LOGGING_ON_CHAN // Select a channel with this (1 - 4), to print a raw sorted output.
-char rawSenseBuffer[200];
-#endif
+extern char rawSenseBuffer[300];
 
 
-// #ifdef ENABLE_LOGGING
 extern char signalBuffer[50];
 extern char processSenseBuffer[50];
-// #endif
 
 void initWhoaBoard();
 

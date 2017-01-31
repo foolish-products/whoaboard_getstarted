@@ -1,10 +1,6 @@
 
 #include "Arduino.h"
 
-#ifndef ENABLE_LOGGING
-#define ENABLE_LOGGING 
-#endif
-
 #include "whoasense.h"
 
 #define hvDigitalIn 19 // pf6 -> A1   D19
@@ -22,16 +18,16 @@
 // Work around from this changing when the program is loaded from the IDE.  
 int capSenseFrequency = 1;
 
-void ledsOff() {
-  digitalWrite(rxled, LOW);
-  digitalWrite(txled, LOW);
-  digitalWrite(rstled, LOW);
-}
-
 void ledsOn() {
   digitalWrite(rxled, HIGH);
   digitalWrite(txled, HIGH);
   digitalWrite(rstled, HIGH);
+}
+
+void ledsOff() {
+    digitalWrite(rxled, LOW);
+    digitalWrite(txled, LOW);
+    digitalWrite(rstled, LOW);
 }
 
 int switched[] = {0, 0, 0, 0};
@@ -244,23 +240,6 @@ void ensureCorrectFrequency() {
   ledsOff();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void sort(int *a, int len) 
 { 
 	quickSort(a, 0, len);
@@ -333,17 +312,38 @@ void pwmSet13(int value)
 	TCCR4A=0x82;  // Activate channel A
 }
 
-// #ifdef ENABLE_LOGGING
+WhoaConfig whoaConfig;
+void initWhoaConfig() {
+        //////////////////////////////
+        // Measurement Knobs
+        //////////////////////////////
+        
+        whoaConfig.rawSenseSize = 31;
+        
+        whoaConfig.sortedRawWindowSize = 15;
+        whoaConfig.sortedRaw_slackToIncrease = 3;
+        whoaConfig.sortedRaw_slackToDecrease = 2;
+        
+        whoaConfig.senseHistorySize = 21;
+        
+        //////////////////////////////
+        // Logging Config
+        //////////////////////////////
+        whoaConfig.ENABLE_logging = true;
+        whoaConfig.ENABLE_rawLogging = false;
+        whoaConfig.rawLoggingChannel = 1;
+};
+
 char signalBuffer[50];
 char processSenseBuffer[50];
-// sprintf(signalBuffer, "");
-// sprintf(processSenseBuffer, "");
-// #endif
+char rawSenseBuffer[300];
 
-int senseHistory[channelCount][senseHistorySize];
+int senseHistory[channelCount][MaxSenseHistorySize];
 int senseHistoryIter = 0;
 
-void initWhoaBoard() {  
+void initWhoaBoard() {
+  initWhoaConfig();
+    
   // hvSwitch communication
   pinMode(hvDigitalIn, OUTPUT);
   pinMode(hvClock, OUTPUT);
@@ -373,24 +373,25 @@ void initWhoaBoard() {
   int* results = senseAll(1500, true);
 
   for (int chan = 0; chan < 4; chan++) { 
-    for (int s = 0; s < senseHistorySize; s++) { 
+    for (int s = 0; s < whoaConfig.senseHistorySize; s++) { 
           senseHistory[chan][s] = results[chan];
     }
   }
+  
 }
 
-int sortedRawSenseIndex[channelCount][sortedRawWindowSize];
+int sortedRawSenseIndex[channelCount][MaxSortedRawWindowSize];
 int lagIter = 0;
 int senseLag[] = {0, 0, 0, 0};
 
-int rawSenseHistory[channelCount][rawSenseSize];
-int sortedRawSenseHistory[rawSenseSize];
+int rawSenseHistory[channelCount][MaxRawSenseSize];
+int sortedRawSenseHistory[MaxRawSenseSize];
 int rawSenseHistoryIter = 0;
 
 void processSense(int* rawSenseResults) { 
-	  senseHistoryIter = (senseHistoryIter + 1) % senseHistorySize;
-    lagIter = (lagIter + 1) % sortedRawWindowSize;
-    rawSenseHistoryIter = (rawSenseHistoryIter + 1) % rawSenseSize;
+	  senseHistoryIter = (senseHistoryIter + 1) % whoaConfig.senseHistorySize;
+    lagIter = (lagIter + 1) % whoaConfig.sortedRawWindowSize;
+    rawSenseHistoryIter = (rawSenseHistoryIter + 1) % whoaConfig.rawSenseSize;
 
     // The next "smoothed" value
     // The measurements that come from the sensor are a bit noisy, so we do a 
@@ -398,22 +399,22 @@ void processSense(int* rawSenseResults) {
     for (int channel = 0; channel < channelCount; channel++) { 
       rawSenseHistory[channel][rawSenseHistoryIter] = rawSenseResults[channel];
       
-      for (int i = 0; i < rawSenseSize; i++) {
+      for (int i = 0; i < whoaConfig.rawSenseSize; i++) {
         sortedRawSenseHistory[i] = rawSenseHistory[channel][i];
       }
 
-      sort(sortedRawSenseHistory, rawSenseSize);
+      sort(sortedRawSenseHistory, whoaConfig.rawSenseSize);
   
-      int prevMeasure = senseHistory[channel][(senseHistoryIter - 1 + senseHistorySize) % senseHistorySize];
+      int prevMeasure = senseHistory[channel][(senseHistoryIter - 1 + whoaConfig.senseHistorySize) % whoaConfig.senseHistorySize];
 
 //      prevMeasure -= 1;
       
       int bestNormError = 10000;
-      int startInd = sortedRawSenseIndex[channel][(lagIter + sortedRawWindowSize - 1) % sortedRawWindowSize] - 2;
+      int startInd = sortedRawSenseIndex[channel][(lagIter + whoaConfig.sortedRawWindowSize - 1) % whoaConfig.sortedRawWindowSize] - 2;
       if (startInd < 0) { startInd = 0; }
-      int endInd = startInd + 5 > rawSenseSize - 1 ? rawSenseSize - 1 : startInd + 5;
+      int endInd = startInd + 5 > whoaConfig.rawSenseSize - 1 ? whoaConfig.rawSenseSize - 1 : startInd + 5;
 
-      if (endInd > rawSenseSize / 2) { 
+      if (endInd > whoaConfig.rawSenseSize / 2) { 
           prevMeasure -= 1;
       }
       
@@ -431,57 +432,59 @@ void processSense(int* rawSenseResults) {
       }
 
       senseLag[channel] = sortedRawSenseIndex[channel][lagIter] - 
-                          sortedRawSenseIndex[channel][(lagIter + 1) % sortedRawWindowSize];
+                          sortedRawSenseIndex[channel][(lagIter + 1) % whoaConfig.sortedRawWindowSize];
                                                   
-      if (senseLag[channel] >= sortedRaw_slackToIncrease) { 
-        sortedRawSenseIndex[channel][lagIter] = sortedRawSenseIndex[channel][(lagIter + 1) % sortedRawWindowSize] + sortedRaw_slackToIncrease;
+      if (senseLag[channel] >= whoaConfig.sortedRaw_slackToIncrease) { 
+        sortedRawSenseIndex[channel][lagIter] = sortedRawSenseIndex[channel][(lagIter + 1) % whoaConfig.sortedRawWindowSize] + whoaConfig.sortedRaw_slackToIncrease;
       }
 
-      if (senseLag[channel] <= -sortedRaw_slackToDecrease && endInd > rawSenseSize / 2) {
-        sortedRawSenseIndex[channel][lagIter] = sortedRawSenseIndex[channel][(lagIter + 1) % sortedRawWindowSize] - sortedRaw_slackToDecrease;
+      if (senseLag[channel] <= -whoaConfig.sortedRaw_slackToDecrease && endInd > whoaConfig.rawSenseSize / 2) {
+        sortedRawSenseIndex[channel][lagIter] = sortedRawSenseIndex[channel][(lagIter + 1) % whoaConfig.sortedRawWindowSize] - whoaConfig.sortedRaw_slackToDecrease;
       }
 
       senseHistory[channel][senseHistoryIter] = sortedRawSenseHistory[sortedRawSenseIndex[channel][lagIter]];
+    
+    if (whoaConfig.ENABLE_rawLogging == true) {
+        if(rawSenseHistoryIter==0  && channel == (whoaConfig.rawLoggingChannel + 3) % 4){
+            int rawsenselen = 0;
+            for(int i=0; i<whoaConfig.rawSenseSize; i++){
+                rawsenselen += sprintf(rawSenseBuffer + rawsenselen, "%d, ", sortedRawSenseHistory[i]);
+            }
+            rawsenselen += sprintf(rawSenseBuffer + rawsenselen, " Sel: %d", senseHistory[channel][senseHistoryIter]);
+            rawsenselen += sprintf(rawSenseBuffer + rawsenselen, " Sel Index: %d", sortedRawSenseIndex[channel][lagIter]);
+        }
+    }
+        
+    if (whoaConfig.ENABLE_logging == true) {
+        int processsenselen;
+        int signallen;
+        for (int chan = 0; chan < channelCount; chan++) {
+            switch (chan) {
+              case 0:
+                processsenselen = sprintf(processSenseBuffer, "Raw Index/Lag: %d %d, ", sortedRawSenseIndex[channel][lagIter], senseLag[channel]);
+                signallen = sprintf(signalBuffer, "Signal: %d, ", senseHistory[chan][senseHistoryIter]);
+                break;
 
-#ifdef ENABLE_RAW_LOGGING_ON_CHAN
-	if(rawSenseHistoryIter==0  && channel == (ENABLE_RAW_LOGGING_ON_CHAN + 3) % 4){
-	  	int rawsenselen = 0;
-	    for(int i=0; i<rawSenseSize; i++){
-	    	rawsenselen += sprintf(rawSenseBuffer + rawsenselen, "%d, ", sortedRawSenseHistory[i]);
-	    }
-	    // Serial.println(rawSenseBuffer);
-	}
-#endif
-// #ifdef ENABLE_LOGGING 
-  	int processsenselen;
-  	int signallen;
- 	for (int chan = 0; chan < channelCount; chan++) {
-	    switch (chan) {
-	      case 0:
-	        processsenselen = sprintf(processSenseBuffer, "Raw Index/Lag: %d %d, ", sortedRawSenseIndex[channel][lagIter], senseLag[channel]);
-	        signallen = sprintf(signalBuffer, "Signal: %d, ", senseHistory[chan][senseHistoryIter]);
-	        break;
+              case 1:
+              case 2:
+              case 3:
+                processsenselen += sprintf(processSenseBuffer + processsenselen, "%d %d, ", sortedRawSenseIndex[channel][lagIter], senseLag[channel]);
+                signallen += sprintf(signalBuffer + signallen, "%d, ", senseHistory[chan][senseHistoryIter]);
+                break;
 
-	      case 1:
-	      case 2:
-	      case 3:
-	        processsenselen += sprintf(processSenseBuffer + processsenselen, "%d %d, ", sortedRawSenseIndex[channel][lagIter], senseLag[channel]);
-        	signallen += sprintf(signalBuffer + signallen, "%d, ", senseHistory[chan][senseHistoryIter]);
-	        break;
-
-	      default:
-	        // Serial.print("blah ");
-	        break;
-	    }
-  	}
-// #endif 
+              default:
+                // Serial.print("blah ");
+                break;
+            }
+        }
+    }
    
     }
 
     return;
 }
 
-getProcessedSense(int channel) { 
+int getProcessedSense(int channel) {
   if (channel < 1 || channel > 4) {
     ledsOn();
   }

@@ -10,16 +10,16 @@
 # Methods and Functions (KEYWORD2)
 #######################################
 
-sort 			KEYWORD2
-ensureCorrectFrequency  KEYWORD2
-initWhoaBoard 	 	KEYWORD2
+sort	KEYWORD2
+ensureCorrectFrequency	KEYWORD2
+initWhoaBoard	KEYWORD2
 
-ledsOff			KEYWORD2
-ledsOn			KEYWORD2
+ledsOff	KEYWORD2
+ledsOn	KEYWORD2
 
-switchOutputs		 KEYWORD2
-disableELSupply_withSync KEYWORD2
-enableELSupply		 KEYWORD2
+switchOutputs	KEYWORD2
+disableELSupply_withSync	KEYWORD2
+enableELSupply	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
@@ -29,8 +29,11 @@ getProcessedSense	KEYWORD2
 
 rawSenseHistoryIter	KEYWORD2
 
-senseAll		KEYWORD2
-senseChannel		KEYWORD2
+senseAll	KEYWORD2
+senseChannel	KEYWORD2
+
+senseHistoryIter	KEYWORD2
+rawSenseHistoryIter	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
@@ -46,9 +49,14 @@ rawSenseSize	LITERAL1
 sortedRawWindowSize	LITERAL1
 sortedRaw_slackToIncrease	LITERAL1
 sortedRaw_slackToDecrease	LITERAL1
-senseHistorySize		LITERAL1
+senseHistorySize	LITERAL1
 
 processSenseBuffer	LITERAL1
-signalBuffer		LITERAL1
-rawSenseBuffer		LITERAL1	
+signalBuffer	LITERAL1
+rawSenseBuffer	LITERAL1
+
+ENABLE_rawLogging	LITERAL1
+rawLoggingChannel	LITERAL1
+ENABLE_logging	LITERAL1	
+	
 

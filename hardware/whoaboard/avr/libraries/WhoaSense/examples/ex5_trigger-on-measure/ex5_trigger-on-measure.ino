@@ -28,10 +28,10 @@ int threshold = 200;
 
 void setup() {
   Serial.begin(9600); 
-  // This initializes the hardware configuration of the board
   initWhoaBoard();
-}
 
+  whoaConfig.ENABLE_logging = true;
+  
 //////////////////////////////////////////////////////////////////
 // More advanced, try tuning these parameters and see what happens 
 // to signal stability.  
@@ -41,12 +41,10 @@ void setup() {
 //
 // Note: There is a balance between stability and responsiveness 
 //////////////////////////////////////////////////////////////////
-#define rawSenseSize 23 // Decreasing this will make signals more responsive/noisy
-#define sortedRawWindowSize 15 // Increasing to make more responsive
-#define sortedRaw_slackToIncrease 2 // Decrease to make more responsive
-#define sortedRaw_slackToDecrease 5 // Decrease to make more stable
-
-
+  whoaConfig.rawSenseSize = 31; // Decrease to make signals more responsive/noisy
+  whoaConfig.sortedRawWindowSize = 15; // Increase to make more responsive
+  whoaConfig.sortedRaw_slackToIncrease = 3; // Decrease to make more responsive
+}
 
 int* rawSenseResults;
 
@@ -54,8 +52,8 @@ void loop() {
   // The first argument here controls the "charging time".  
   // Increase the number, get a larger signal (but lose a bit of brightness).
   rawSenseResults = senseAll(1700, true);
-
-  Serial.println(signalBuffer);
+  
+  Serial.println(processSenseBuffer);
   if (getProcessedSense(1) < threshold) { 
     glow[0] = false;
   }
@@ -64,6 +62,3 @@ void loop() {
   }
   
 }
-
-
-
