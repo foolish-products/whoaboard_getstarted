@@ -41,6 +41,9 @@ Download this "repo" by clicking the big green button above, like so:
 Unzip it.  If you are on windows, open the "windows" folder, and install "whoaboard_driver.exe".
 
 Next, copy the other folders we supply to your arduino sketchbook (which should in "My Documents/Arduino" on windows, and "Documents/Arduino" on Mac/Linux).
+<p align="center">
+<img src="docs/install-path.png" />
+</p>
 
 If you already have a "hardware" folder in your arduino sketchbook, copy our folders (called whoaboard, teeonardu) into that folder.  These contain the library needed to make the whoa board work and some configuration files.  
 
@@ -66,11 +69,11 @@ It's worth noting that the Whoa Board has much in common with Adafruit's [Flora]
 Feature Overview
 ================
 
-The Whoa Board is an Arduino Compatible prototyping board, and there are a few examples under file>examples in the arduino IDE which should help you get started! 
+The Whoa Board is an Arduino Compatible prototyping board, and we have included a number of examples (under file>examples in the arduino IDE) to help you get started! 
 
-<p align="center">
+<a href=https://github.com/foolish-products/whoaboard_getstarted/tree/master/hardware/whoaboard/avr/libraries/WhoaSense/examples><p align="center">
 <img src="docs/examples.png" />
-</p>
+</p> (click to browse on github)</a>
 
 The most unique thing about this board is that it can perform capacitative measurements (and independently sequence) 4 channels of electro-luminescent (EL) material.
 
