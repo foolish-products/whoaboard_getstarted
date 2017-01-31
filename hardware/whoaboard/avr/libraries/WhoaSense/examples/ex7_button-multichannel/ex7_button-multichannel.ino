@@ -76,20 +76,11 @@ char derivativeBuffer[50];
 #define PrintLineSize 200
 char logBuffer[PrintLineSize];
 
-int val = 0;
-
-int minimum = 10000;
-int maximum = 0;
-
 bool isTouched = false;
 bool whereTouched[] = {false, false, false, false};
 
-float change = 0;
-
 bool shouldGlow = true;
 
-bool isOn = true;
-bool justSwitched = false;
 int switchedCount = 0;
 
 int chanImpulse; 

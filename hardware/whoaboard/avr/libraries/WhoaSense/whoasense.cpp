@@ -1,3 +1,8 @@
+/* This is the main implementation file for the the WhoaSense library.  
+ *
+ *  Copyright (C) 2017 Josh Vekhter
+ *  This code is released under the Apache License
+ */
 
 #include "Arduino.h"
 

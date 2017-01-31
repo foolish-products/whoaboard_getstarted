@@ -1,3 +1,16 @@
+/* This is the main header file for the the WhoaSense library.
+ *
+ * This library is built on the Whoa Board, and takes care of hardware configuration and 
+ * does some signal processing to simplify the process of working on projects that incorporate 
+ * interactive electroluminescent (EL) elements!  
+ *
+ *  Main site: http://whoaboard.com
+ *  Documentation: http://whoaboard.com/docs
+ *
+ *  Copyright (C) 2017 Josh Vekhter
+ *  This code is released under the Apache License
+ */
+
 #ifndef WhoaSense_h
 #define WhoaSense_h
 
