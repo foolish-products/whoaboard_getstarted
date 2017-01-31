@@ -1,17 +1,13 @@
+<a href="https://www.hackster.io/foolish-products/products/whoa-board">
 <p align="center">
 <img src="docs/whoa-robot-clear-background.png" />
-</p>
+</p></a>
 
 # Hello Hello!
 
 Super glad you could make it!  This here is a guide for getting started with the Whoa Board.  
 
 Before we get started, two things.  
-
-<a href="https://www.hackster.io/foolish-products/products/whoa-board">
-<p align="center">
-<img src="docs/hackster_logo.png" />
-</p></a>
 
 1. If you make something, please share (consider this [forum](https://www.hackster.io/foolish-products/products/whoa-board), but really we're just excited to see what everyone makes and want to make it easy for ideas and insights to flow!).
 
