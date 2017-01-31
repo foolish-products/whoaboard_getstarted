@@ -1,10 +1,10 @@
+# Hello Hello!
 
 <p align="center">
 <a href="https://www.hackster.io/foolish-products/products/whoa-board">
-<img src="docs/whoa-robot-clear-background.png" />
-</a></p>
-
-# Hello Hello!
+<img src="docs/whoa-robot-clear-background.png">
+</a>
+</p>
 
 Super glad you could make it!  This here is a guide for getting started with the Whoa Board.  
 
@@ -16,14 +16,14 @@ Before we get started, two things.
 
 _**Contents**_
 
-  * [Quick Start!](#quick-start-)
-  * [Feature Overview](#feature-overview)
-  * [Context](#context)
-  * [Experiments and New Applications](#experiments-and-new-applications)
-  * [A Major Weirdness](#a-major-weirdness)
-  * [A More Minor Quirk](#a-more-minor-quirk)
-  * [Under The Hood](#under-the-hood)
-  * [License](#license)
+* [Quick Start!](#quick-start-)
+* [Feature Overview](#feature-overview)
+* [Context](#context)
+* [Experiments and New Applications](#experiments-and-new-applications)
+* [A Major Weirdness](#a-major-weirdness)
+* [A More Minor Quirk](#a-more-minor-quirk)
+* [Under The Hood](#under-the-hood)
+* [License](#license)
 
 
 
@@ -77,42 +77,21 @@ The Whoa Board is an Arduino Compatible prototyping board, and we have included 
 <img src="docs/examples.png" />
 </p> Click here to browse on Github!</a>
 
-The most unique thing about this board is that it can perform capacitative measurements (and independently sequence) 4 channels of electro-luminescent (EL) material.
+These examples distill some of the central concepts that we have used in creating prototypes with this board.  
 
-This capability makes it possible to quickly and easily turn EL materials into interface elements. 
+There are a few demos that are notably missing.  A solid MIDI I/O demo, and wireless/BLE demo (built on top of NRF24 radios and this [bluetooth library](https://github.com/Pranavgulati/RF24BLE)).
 
-Further, because these channels can be independently switched at high speed, these capacitative measurements can be combined with effects like PWM based dimming. 
+However, we do include a number of different examples for logging and controlling the sequence and brightness of the EL elements.  Please give us feedback on what you'd like to see/what documentation needs work, and show us your projects [here!](https://www.hackster.io/foolish-products/products/whoa-board).
 
-It also has an extra EL channel linked directly to the EL supply. This channel cannot perform measurements, and must be on when any other channel is on, but can be independently controlled otherwise. 
+The most complicated demo is the button-multichannel, and the hope with it is to provide a reference of how something more robust can be built on top of this board.  
 
-Aside from the EL features, the Whoa Board is also a versatile wearable prototyping board (in the vein of the Adafruit's Flora and Leah Buechley's Lilypad), 
-capable of integrating with a wide array of hardware sensors/peripherals. 
-
-It is built on Atmel's 32u4 8-bit microcontroller, and can be powered and programmed by any micro-usb cable. This USB port can also be used to output Keyboard, Mouse, and MIDI instructions. 
-
-It has 3 independently controllable built in LEDs, and a header which is drop in compatible with NRF24 based radios (which can be used to create mesh networks and can also masquerade as [bluetooth radios](https://github.com/Pranavgulati/RF24BLE) for cell phone based control).
-
-Context
-=======
-
-The main purpose of this library is to expose a robust interface which simplifies the process of adding interaction to EL materials.
-
-In particular our main development goal was to expose a "smoothed" signal from the EL channels which is both stable (low noise) and responsive to touch. 	
-The Whoa Board ships with a program which makes use of this signal to turn EL materials into On/Off switches,
-and we are excited to see what other experiments emerge from the community. 
-
-Please share your projects! This [forum](https://www.hackster.io/foolish-products/products/whoa-board) is a good place to do so at present!
 
 Experiments and New Applications
 ================================
 
-As mentioned above the main interface exposed by this library is an array which contains a history of the past SMOOTHED_SENSE_WINDOW_SIZE measurements.
+The main point of the above examples is to make you comfortable experimenting with the "signal stream" produced for each channel (welcome to the matrix).
 
-If you connect the Whoa Board to the Arduino IDE, and open the Serial Monitor, you should begin to see a stream of numbers (welcome to the matrix).
-
-The four left most numbers correspond to a smoothed signal on each channel. Plug in a piece of EL and try touching the wire. Note how the signal changes! 
-
-This signal is your paint brush for developing interactions. If you want to see if an interaction is possible, the first thing to do is to check if 
+This signal stream is your paint brush for developing interactions. If you want to see if an interaction is possible, the first thing to do is to check if 
 the smoothed signal stream reliably changes when performing the interaction. If you can see a pattern, it is probably possible
 to find a set of heuristics which make the board react to it. If you don't see any change, there are a number of signal processing knobs to turn which 
 might make it show up. Alternatively, changing the EL material you are using can also have a significant effect. In particular, the Whoa Board's sensing is 
@@ -156,7 +135,7 @@ Under the Hood
 
 Extracting a signal from this board is a somewhat subtle, multi-staged, process. Here are the steps, in order of utility. 
 
-	1. Application Level Logic 
+1. Application Level Logic 
 - This is where one bridges the gap between the smoothed signal and a desired interaction. 
 
 For our "button" example, the main heuristic we use is that when the EL element is touched, it consistently decreases over a series of measurements. 
@@ -166,22 +145,21 @@ If you are working with a more concrete application, it might be easier to achie
 <p align="center">
 <img src="docs/impulse.png" />
 </p>
-	2. Signal Smoothing
+2. Signal Smoothing
 - The raw signal that is collected from the board can be quite noisy. We extract a smoothed signal from every measurement 
 by performing computations on a sliding window of past measurements. 
 
 This smoothing technique is the product of extensive testing, and in our experience strikes a reasonable balance between signal stability and responsiveness for general application. 
-However, there are occasions where you might want to process the raw signal in a different way. 
-Define RAW_CHANNEL_LOGGING to print a sorted raw signal stream. For some applications it may be beneficial to do some tweaking here.
+However, there are occasions where you might want to process the raw signal in a different way. In the later examples we expose some parameters which can be useful for this sort of tuning.  
 
-	3. Orchestration 
+3. Orchestration 
 - The sequence of steps that need to be performed to collect a "raw" capacitative measurement.
 
 One experimental feature of this board is the capability to pass an external EL supply through the board, 
 and to perform capacitative measurements on that. Using this feature requires making orchestration changes (among other things).
 If you are interested in testing this feature, please contact us first (josh [at] foolishproducts.com, include the word "External" in the subject).
 
-	4. Configuration
+4. Configuration
 - Low level hardware setup necessary for successful operation of the Whoa Board.
 
 It is unlikely that you will need to touch anything on this level as you play with this board.
@@ -193,7 +171,7 @@ The code in this library is released under the Apache license, and the hardware 
 
 If you are experimenting, playing, or otherwise exploring, we're very glad to have you, and hope that you'll document/share your discoveries (one final shout out to this [forum](https://www.hackster.io/foolish-products/products/whoa-board) ).
 
-If you land on the path of commercialization, please reach out regarding volume ordering/hardware licensing (josh [at] foolishproducts.com, include the word "commercial" in the subject).
+If you land on the path of commercialization (or otherwise start needing to independently control lots of EL channels), please reach out regarding volume ordering/hardware licensing (josh [at] foolishproducts.com, include the word "commercial" in the subject).
 
 <p align="center">
 <img src="docs/whoa-square-logo.png" />
