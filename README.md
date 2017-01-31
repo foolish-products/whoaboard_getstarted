@@ -10,6 +10,11 @@ Before we get started, two things.
 
 1. If you make something, please share (consider this [forum](https://www.hackster.io/foolish-products/products/whoa-board), but really we're just excited to see what everyone makes and want to make it easy for ideas and insights to flow!).
 
+<a href='https://www.hackster.io/foolish-products/products/whoa-board'>'
+<p align="center">
+<img src="docs/serial-monitor.png" />
+</p></a>
+
 2. Please fill out this [survey](https://goo.gl/forms/owCjG2DdysAJHh7x2), we'd really appreciate it, and we'll bug you about it if less than half of the early birds respond.
 
 _**Contents**_
@@ -73,7 +78,7 @@ The Whoa Board is an Arduino Compatible prototyping board, and we have included 
 
 <a href=https://github.com/foolish-products/whoaboard_getstarted/tree/master/hardware/whoaboard/avr/libraries/WhoaSense/examples><p align="center">
 <img src="docs/examples.png" />
-</p> (click to browse on github)</a>
+</p> Click here to browse on Github!</a>
 
 The most unique thing about this board is that it can perform capacitative measurements (and independently sequence) 4 channels of electro-luminescent (EL) material.
 
