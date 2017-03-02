@@ -11,7 +11,8 @@
 #define hvDigitalIn 19 // pf6 -> A1   D19
 #define hvClock 18     // pf7 -> A0   D18
 
-#define elEnable 20    // pf5 -> A2   D20
+#define elEnable 20     // pf5 -> A2   D20
+#define elPowerEnable 20// pb7 ->      D11
 
 #define clearPin 6     // pd7 -> A7   D6#
 #define sense1 4       // pd4 -> A6   D4
@@ -363,6 +364,9 @@ void initWhoaBoard() {
     
     pinMode(elEnable, OUTPUT);
     digitalWrite(elEnable, HIGH);
+    
+    pinMode(elPowerEnable, OUTPUT);
+    digitalWrite(elPowerEnable, HIGH);
     
     pinMode(sense1, INPUT);
     pinMode(sense2, INPUT);
