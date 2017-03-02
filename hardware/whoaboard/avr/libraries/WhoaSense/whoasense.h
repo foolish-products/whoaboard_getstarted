@@ -47,7 +47,7 @@ extern "C" {
     int senseChannel(int channel, int chargeDelay_micros);
     int* senseAll(int chargeDelay_micros, bool isGlow);
     
-    typedef struct WhoaConfig {
+    struct WhoaConfig {
         //////////////////////////////
         // Measurement Knobs
         //////////////////////////////

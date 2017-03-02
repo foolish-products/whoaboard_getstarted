@@ -148,7 +148,7 @@ const uint16_t PROGMEM port_to_input_PGM[] = {
     (uint16_t) &PINF,
 };
 
-const uint8_t PROGMEM digital_pin_to_port_PGM[30] = {
+const uint8_t PROGMEM digital_pin_to_port_PGM[31] = {
     PD, // D0 - PD2
     PD,	// D1 - PD3
     PD, // D2 - PD1
