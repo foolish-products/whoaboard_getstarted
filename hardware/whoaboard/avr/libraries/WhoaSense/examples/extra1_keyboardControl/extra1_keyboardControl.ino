@@ -6,7 +6,6 @@
  *  This example code released under the Apache License
  */
 #include <whoasense.h>
-#include "whoaButton.h"
 
 unsigned long time;
 void setup() {
