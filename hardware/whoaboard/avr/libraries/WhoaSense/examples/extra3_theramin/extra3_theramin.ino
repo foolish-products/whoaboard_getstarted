@@ -1,11 +1,10 @@
-/* This example shows how to use the WhoaSense library to view the raw signal 
- *  coming from the whoa board, and to create logic around that.  
+/* This example shows how to use the WhoaSense to turn EL materials into a visual theramin.  
+ *  It combines concepts from example 1 (Dimming via pulse width modulation) and example 5 
+ *  (hand tuning a parameter to trigger effects).  
  *  
- *  For this example, we will assume your EL element is connected to channel 1.
- *  Please make sure you do this!
- *  
- *  To start with this exercise, try tuning the threshold parameter to 
- *  make your EL element turn off when you touch it.
+ *  This example works best with wound up wire or EL strips/panels.  Surface area helps get a reliable
+ *  signal at a distance.  Tune the following parameters: 
+ *  low_threshold, mid_threshold, midDutyCycle_us, high_threshold, period_us.
  *  
  *  Copyright (C) 2017 Josh Vekhter
  *  This example code released under the Apache License
@@ -47,12 +46,12 @@ void setup() {
 }
 
 
-int low_threshold = 100;
-int mid_threshold = 250;
+int low_threshold = 300;
+int mid_threshold = 370;
 int midDutyCycle_us = 3000;
-int high_threshold = 340;
-
+int high_threshold = 450;
 int period_us = 5000;
+
 // This temporary variable keeps track of the time on (in microseconds) 
 int dutyCycle_us = 0;
 
@@ -61,9 +60,9 @@ int* rawSenseResults;
 void loop() {
   // The first argument here controls the "charging time".  
   // Increase the number, get a larger signal (but lose a bit of brightness).
-  rawSenseResults = senseAll(1700, true);
+  rawSenseResults = senseAll(1700, false);
   
-//  Serial.println(signalBuffer);
+  Serial.println(signalBuffer);
   int measurement = getProcessedSense(1); 
   if (measurement < low_threshold) { 
     dutyCycle_us = 0;
@@ -88,6 +87,8 @@ void loop() {
 
     Serial.println(frac);
   }
+
+//  Serial.println(dutyCycle_us);
 
   // PWM code (like in example 1)
   switchOutputs(glow);
