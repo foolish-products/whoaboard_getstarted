@@ -16,15 +16,6 @@
 
 #include <whoasense.h>
 
-//////////////////////////////////////////////////////////////////
-// Open the serial monitor and see what happens when you 
-// increase this parameter.
-//
-// (try setting it between the values that you see when you 
-// don't touch the wire and when you do!)
-//////////////////////////////////////////////////////////////////
-int threshold = 210;
-
 void setup() {
   Serial.begin(9600); 
   initWhoaBoard();
@@ -45,12 +36,20 @@ void setup() {
   whoaConfig.sortedRaw_slackToIncrease = 3; // Decrease to make more responsive
 }
 
+//////////////////////////////////////////////////////////////////
+// Open the serial monitor and see what happens when change these parameters.
+//
+// (try setting low_threshold to the place where you want it to turn off, 
+//              high_threshold close to the value you see when you don't touch anything.  
+//              mid_threshold a little below the place where you want to see an effect).
+//  
+//////////////////////////////////////////////////////////////////
 
 int low_threshold = 300;
 int mid_threshold = 370;
-int midDutyCycle_us = 3000;
 int high_threshold = 450;
 int period_us = 5000;
+int midDutyCycle_us = 3000;
 
 // This temporary variable keeps track of the time on (in microseconds) 
 int dutyCycle_us = 0;
